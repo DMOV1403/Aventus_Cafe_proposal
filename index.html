@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aventus Cafe — عرض الموقع الإلكتروني</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  /* ── Reset & Base ─────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --sage:        #728373;
+    --sage-dark:   #4E5C4F;
+    --sage-darker: #354035;
+    --sage-deepest:#222B22;
+    --sage-med:    #5C6E5D;
+    --sage-light:  #8EA38F;
+    --sage-pale:   #B2C4B3;
+    --white:       #FAFAFA;
+    --off-white:   #EBF0EB;
+    --muted:       #8A9E8B;
+    --border:      #4A5C4B;
+    --border-lt:   #607860;
+    --green-dot:   #5EC47A;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--sage-deepest);
+    color: var(--off-white);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Scrollbar ──────────────────────────────────────── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--sage-deepest); }
+  ::-webkit-scrollbar-thumb { background: var(--sage-med); border-radius: 3px; }
+
+  /* ── Section label ──────────────────────────────────── */
+  .sec-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-direction: row-reverse;
+  }
+  .sec-label span {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--white);
+    text-transform: uppercase;
+  }
+  .sec-label::before {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-lt);
+  }
+  .sec-label::after {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--sage-light);
+    flex-shrink: 0;
+  }
+
+  /* ── Cards ──────────────────────────────────────────── */
+  .card {
+    background: var(--sage-dark);
+    border: 1px solid var(--border-lt);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--sage-light);
+  }
+  .card.card-med { background: var(--sage-med); }
+  .card.card-accent::before { background: var(--sage-pale); }
+
+  /* ── Divider ────────────────────────────────────────── */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 8px 0;
+  }
+
+  /* ── Noise texture overlay ──────────────────────────── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ══════════════════════════════════════════════════════
+     HERO / COVER
+  ══════════════════════════════════════════════════════ */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 24px;
+    position: relative;
+    background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(114,131,115,0.18) 0%, transparent 70%);
+  }
+
+  .logo-wrap {
+    width: 160px; height: 160px;
+    background: var(--sage);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 32px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    animation: fadeDown 0.8s ease both;
+  }
+  .logo-wrap svg {
+    width: 100px;
+    fill: var(--white);
+  }
+
+  .hero-title {
+    font-size: clamp(36px, 6vw, 56px);
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    text-align: center;
+    animation: fadeDown 0.8s 0.1s ease both;
+  }
+
+  .hero-sub {
+    font-size: 15px;
+    color: var(--muted);
+    margin-top: 10px;
+    text-align: center;
+    animation: fadeDown 0.8s 0.2s ease both;
+  }
+
+  .hero-divider {
+    width: 240px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--sage-light), transparent);
+    margin: 28px auto;
+    animation: fadeIn 1s 0.3s ease both;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    background: var(--sage-dark);
+    border: 1px solid var(--border-lt);
+    border-radius: 12px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 520px;
+    margin-top: 8px;
+    animation: fadeUp 0.8s 0.4s ease both;
+    position: relative;
+  }
+  .info-grid::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--sage-light);
+  }
+
+  .info-cell {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    border-left: 1px solid var(--border);
+    text-align: center;
+  }
+  .info-cell:nth-child(odd) { border-left: none; }
+  .info-cell:nth-last-child(-n+2) { border-bottom: none; }
+
+  .info-cell .lbl { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+  .info-cell .val { font-size: 13px; font-weight: 700; color: var(--white); }
+
+  .hero-footer {
+    margin-top: 40px;
+    text-align: center;
+    animation: fadeUp 0.8s 0.6s ease both;
+  }
+  .hero-footer p { font-size: 13px; color: var(--muted); }
+  .hero-footer strong { color: var(--off-white); font-weight: 700; }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    animation: fadeIn 1s 1.2s ease both, bounce 2s 2s infinite;
+  }
+  .scroll-hint span { font-size: 10px; color: var(--muted); letter-spacing: 0.1em; }
+  .scroll-hint svg { width: 20px; fill: none; stroke: var(--muted); stroke-width: 2; }
+
+  /* ══════════════════════════════════════════════════════
+     SECTIONS WRAPPER
+  ══════════════════════════════════════════════════════ */
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 80px 24px;
+  }
+
+  .page + .page {
+    border-top: 1px solid var(--border);
+  }
+
+  .page-title {
+    font-size: clamp(24px, 4vw, 32px);
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+  .page-sub {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 32px;
+    line-height: 1.7;
+  }
+
+  /* ══════════════════════════════════════════════════════
+     PAGE 2 — WHY + OFFER
+  ══════════════════════════════════════════════════════ */
+  .problems-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 48px;
+  }
+
+  .problem-card {
+    background: var(--sage-med);
+    border: 1px solid var(--border-lt);
+    border-radius: 10px;
+    padding: 20px 16px 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .problem-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--sage-light);
+  }
+  .problem-card h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .problem-card p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 48px;
+  }
+
+  .feature-card {
+    background: var(--sage-dark);
+    border: 1px solid var(--border-lt);
+    border-radius: 10px;
+    padding: 16px 14px 14px;
+    position: relative;
+    overflow: hidden;
+  }
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--sage-light);
+  }
+  .feature-card h3 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .feature-card p {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .pages-table {
+    border: 1px solid var(--border-lt);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  .page-row {
+    display: flex;
+    align-items: center;
+    padding: 12px 18px;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+    justify-content: flex-end;
+  }
+  .page-row:last-child { border-bottom: none; }
+  .page-row:nth-child(even) { background: var(--sage-med); }
+  .page-row:nth-child(odd)  { background: var(--sage-dark); }
+  .page-row .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--sage-light);
+    flex-shrink: 0;
+  }
+  .page-row .pg-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+    white-space: nowrap;
+  }
+  .page-row .pg-desc {
+    font-size: 12px;
+    color: var(--muted);
+    flex: 1;
+    text-align: right;
+  }
+  .pages-note {
+    font-size: 12px;
+    color: var(--sage-light);
+    text-align: left;
+    margin-top: 8px;
+  }
+
+  /* ══════════════════════════════════════════════════════
+     PAGE 3 — PRICING
+  ══════════════════════════════════════════════════════ */
+  .price-banner {
+    background: var(--sage-dark);
+    border: 1px solid var(--border-lt);
+    border-radius: 10px;
+    padding: 20px 24px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+  .price-banner::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--sage-light);
+  }
+  .price-banner h2 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .price-banner p { font-size: 13px; color: var(--muted); }
+
+  .factors-table {
+    border: 1px solid var(--border-lt);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .factor-row {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--border);
+    text-align: right;
+  }
+  .factor-row:last-child { border-bottom: none; }
+  .factor-row:nth-child(odd)  { background: var(--sage-dark); }
+  .factor-row:nth-child(even) { background: var(--sage-med); }
+  .factor-row .f-title { font-size: 14px; font-weight: 700; color: var(--white); }
+  .factor-row .f-desc  { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  .hosting-note {
+    background: var(--sage-med);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 18px;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 28px;
+    text-align: right;
+  }
+
+  .payment-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .payment-card {
+    border-radius: 10px;
+    padding: 22px 16px 18px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .payment-card.p1 {
+    background: var(--sage-dark);
+    border: 1px solid var(--border-lt);
+  }
+  .payment-card.p2 {
+    background: var(--sage-dark);
+    border: 1px solid var(--border-lt);
+  }
+  .payment-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .payment-card.p1::before { background: var(--sage-light); }
+  .payment-card.p2::before { background: var(--sage-med); }
+  .payment-card .pct {
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .payment-card .pwhen {
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .payment-method {
+    text-align: center;
+    font-size: 12px;
+    color: var(--sage-pale);
+    margin-bottom: 36px;
+    margin-top: 4px;
+  }
+
+  /* Timeline */
+  .timeline-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .tl-card {
+    background: var(--sage-dark);
+    border: 1px solid var(--border-lt);
+    border-radius: 10px;
+    padding: 14px 10px 12px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .tl-card.last {
+    background: var(--sage-med);
+    border-color: var(--sage-light);
+  }
+  .tl-card.review { }
+  .tl-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--border-lt);
+  }
+  .tl-card.last::before  { background: var(--sage-light); }
+  .tl-card.review::before { background: var(--sage-med); }
+  .tl-num {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--white);
+    color: var(--sage-deepest);
+    font-size: 11px;
+    font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 8px;
+  }
+  .tl-day { font-size: 10px; color: var(--sage-light); margin-bottom: 4px; }
+  .tl-title { font-size: 12px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+  .tl-desc  { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+  .support-note {
+    background: var(--sage-med);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  /* ══════════════════════════════════════════════════════
+     PAGE 4 — PORTFOLIO + NEXT STEPS
+  ══════════════════════════════════════════════════════ */
+  .portfolio-card {
+    background: var(--sage-dark);
+    border: 1px solid var(--border-lt);
+    border-radius: 12px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 48px;
+  }
+  .portfolio-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--sage-light);
+  }
+  .portfolio-card h3 { font-size: 18px; font-weight: 800; color: var(--white); }
+  .portfolio-card .psub { font-size: 13px; color: var(--muted); margin-top: 4px; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+  .portfolio-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+    justify-content: flex-end;
+    text-align: right;
+  }
+  .portfolio-item .pdot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--sage-light);
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+  .portfolio-item p { font-size: 13px; color: var(--off-white); line-height: 1.5; }
+  .portfolio-link {
+    display: inline-block;
+    margin-top: 16px;
+    font-size: 12px;
+    color: var(--muted);
+    text-decoration: none;
+    direction: ltr;
+  }
+  .portfolio-link:hover { color: var(--sage-light); }
+
+  .steps-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 28px; }
+  .step-card {
+    background: var(--sage-dark);
+    border: 1px solid var(--border-lt);
+    border-radius: 10px;
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: flex-end;
+    transition: background 0.2s;
+  }
+  .step-card:hover { background: var(--sage-med); }
+  .step-content { flex: 1; text-align: right; }
+  .step-content h3 { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 3px; }
+  .step-content p  { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .step-num {
+    width: 40px; height: 36px;
+    background: var(--white);
+    border-radius: 6px;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--sage-deepest);
+  }
+
+  .contact-card {
+    background: var(--sage-med);
+    border: 1px solid var(--border-lt);
+    border-radius: 12px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .contact-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--sage-light);
+  }
+  .contact-logo {
+    width: 56px; height: 56px;
+    background: var(--sage);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .contact-logo svg { width: 34px; fill: var(--white); }
+  .contact-divider {
+    width: 1px;
+    height: 60px;
+    background: var(--border-lt);
+    flex-shrink: 0;
+  }
+  .contact-info { flex: 1; text-align: right; }
+  .contact-info h3 { font-size: 18px; font-weight: 800; color: var(--white); margin-bottom: 4px; }
+  .contact-info .ctitle { font-size: 13px; color: var(--off-white); margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .contact-info .clinks { font-size: 12px; color: var(--muted); direction: ltr; text-align: right; }
+
+  .closing {
+    text-align: center;
+    padding: 32px 0 16px;
+  }
+  .closing p { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+  .closing small { font-size: 12px; color: var(--muted); }
+
+  /* ── Animations ─────────────────────────────────────── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50%       { transform: translateX(-50%) translateY(6px); }
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* ── Responsive ─────────────────────────────────────── */
+  @media (max-width: 640px) {
+    .problems-grid { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr 1fr; }
+    .timeline-grid { grid-template-columns: 1fr 1fr; }
+    .tl-card:last-child { grid-column: span 2; }
+    .payment-grid { grid-template-columns: 1fr 1fr; }
+    .info-grid { grid-template-columns: 1fr; }
+    .info-cell { border-left: none !important; }
+    .contact-card { flex-direction: column; align-items: flex-end; }
+    .contact-divider { width: 100%; height: 1px; }
+  }
+  @media (max-width: 400px) {
+    .features-grid { grid-template-columns: 1fr; }
+    .timeline-grid { grid-template-columns: 1fr; }
+    .tl-card:last-child { grid-column: span 1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="logo-wrap">
+    <!-- Aventus Cafe icon (AM monogram) -->
+    <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="10,80 35,10 50,50 65,10 90,80 78,80 65,42 50,78 35,42 22,80" fill="white"/>
+    </svg>
+  </div>
+
+  <h1 class="hero-title">Aventus Cafe</h1>
+  <p class="hero-sub">عرض تصميم وبناء الموقع الإلكتروني</p>
+
+  <div class="hero-divider"></div>
+
+  <div class="info-grid">
+    <div class="info-cell">
+      <div class="lbl">مقدم إلى</div>
+      <div class="val">Aventus Cafe</div>
+    </div>
+    <div class="info-cell">
+      <div class="lbl">مقدم من</div>
+      <div class="val">أسامة منير</div>
+    </div>
+    <div class="info-cell">
+      <div class="lbl">التاريخ</div>
+      <div class="val">17 / 05 / 2026</div>
+    </div>
+    <div class="info-cell">
+      <div class="lbl">صالح لمدة</div>
+      <div class="val">30 يوماً</div>
+    </div>
+  </div>
+
+  <div class="hero-footer">
+    <p><strong>أسامة منير</strong> — مطور ويب مستقل — صحار، عُمان</p>
+    <p style="direction:ltr; margin-top:4px;">behance.net/osamamonir_</p>
+  </div>
+
+  <div class="scroll-hint">
+    <span>تصفّح</span>
+    <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     PAGE 2 — WHY + OFFER
+══════════════════════════════════════════════════════ -->
+<section class="page">
+  <div class="reveal">
+    <div class="sec-label"><span>لماذا يحتاج Aventus Cafe موقعاً إلكترونياً؟</span></div>
+    <h2 class="page-title">الوضع الحالي والفرصة المتاحة</h2>
+    <p class="page-sub">بنى Aventus Cafe حضوراً قوياً في صحار منذ 2018، لكن صفحة esite الحالية تحدّ من وصولكم.</p>
+  </div>
+
+  <div class="problems-grid">
+    <div class="problem-card reveal reveal-delay-1">
+      <h3>غير ظاهر على الإنترنت</h3>
+      <p>صفحة esite لا تظهر في نتائج البحث، مما يعني أن كثيراً من العملاء لن يجدوكم.</p>
+    </div>
+    <div class="problem-card reveal reveal-delay-2">
+      <h3>تحكم محدود</h3>
+      <p>صفحة esite تتحكم في تصميمكم وبياناتكم، موقعكم الخاص ملكٌ لكم بالكامل.</p>
+    </div>
+    <div class="problem-card reveal reveal-delay-3">
+      <h3>مصداقية أقل</h3>
+      <p>العملاء الجدد يبحثون عن موقع رسمي قبل الزيارة، بدونه تضعف الثقة من البداية.</p>
+    </div>
+  </div>
+
+  <div class="reveal">
+    <div class="sec-label"><span>ماذا سأبني لـ Aventus Cafe؟</span></div>
+    <h2 class="page-title">موقع مصمم خصيصاً لـ Aventus Cafe</h2>
+    <p class="page-sub">موقع سريع وأنيق يظهر على الإنترنت، يعكس هوية Aventus Cafe، ويعمل بشكل مثالي على الجوال والكمبيوتر.</p>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-card reveal reveal-delay-1">
+      <h3>ظاهر على الإنترنت</h3>
+      <p>إعداد SEO كامل ليجدكم العملاء بسهولة</p>
+    </div>
+    <div class="feature-card reveal reveal-delay-2">
+      <h3>مصمم للجوال أولاً</h3>
+      <p>معظم الزوار يتصفحون من هواتفهم</p>
+    </div>
+    <div class="feature-card reveal reveal-delay-3">
+      <h3>هويتكم البصرية</h3>
+      <p>ألوان وشعار Aventus Cafe بالكامل</p>
+    </div>
+    <div class="feature-card reveal">
+      <h3>دعم 15 يوماً</h3>
+      <p>دعم مجاني لمدة 15 يوماً بعد الإطلاق</p>
+    </div>
+  </div>
+
+  <div class="reveal">
+    <div class="sec-label"><span>الصفحات المقترحة</span></div>
+    <p class="page-sub" style="margin-bottom:12px;">هذه الصفحات مقترحة كنقطة بداية — أنتم تختارون ما يناسبكم.</p>
+  </div>
+
+  <div class="pages-table reveal">
+    <div class="page-row">
+      <div class="pg-desc">نبذة عن الكافيه وروابط للأقسام الرئيسية</div>
+      <div class="pg-name">الرئيسية</div>
+      <div class="dot"></div>
+    </div>
+    <div class="page-row">
+      <div class="pg-desc">منيو رقمي كامل مع الأقسام والأسعار</div>
+      <div class="pg-name">المنيو</div>
+      <div class="dot"></div>
+    </div>
+    <div class="page-row">
+      <div class="pg-desc">صور الأجواء والمشروبات</div>
+      <div class="pg-name">معرض الصور</div>
+      <div class="dot"></div>
+    </div>
+    <div class="page-row">
+      <div class="pg-desc">قصة Aventus Cafe منذ 2018</div>
+      <div class="pg-name">من نحن</div>
+      <div class="dot"></div>
+    </div>
+    <div class="page-row">
+      <div class="pg-desc">خرائط Google، واتساب، أوقات الدوام</div>
+      <div class="pg-name">تواصل معنا</div>
+      <div class="dot"></div>
+    </div>
+  </div>
+  <p class="pages-note reveal">يمكن إضافة أو إزالة أي صفحة حسب رغبتكم</p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     PAGE 3 — PRICING + TIMELINE
+══════════════════════════════════════════════════════ -->
+<section class="page">
+  <div class="reveal">
+    <div class="sec-label"><span>التسعير والجدول الزمني</span></div>
+    <h2 class="page-title">سعر مخصص حسب احتياجاتكم</h2>
+    <p class="page-sub">أخبروني بالصفحات التي تريدونها، وسأرسل لكم السعر فوراً.</p>
+  </div>
+
+  <div class="price-banner reveal">
+    <h2>النطاق السعري: من 50 إلى 100 ريال عُماني</h2>
+    <p>السعر النهائي يتحدد بعد معرفة عدد الصفحات والميزات المطلوبة.</p>
+  </div>
+
+  <div class="reveal">
+    <div class="sec-label"><span>ما الذي يحدد السعر؟</span></div>
+  </div>
+
+  <div class="factors-table reveal">
+    <div class="factor-row">
+      <div class="f-title">عدد الصفحات</div>
+      <div class="f-desc">كلما زادت الصفحات، زاد وقت التصميم والبناء</div>
+    </div>
+    <div class="factor-row">
+      <div class="f-title">الميزات الإضافية</div>
+      <div class="f-desc">مثل نموذج حجز أو ربط تطبيقات التوصيل</div>
+    </div>
+    <div class="factor-row">
+      <div class="f-title">التصميم المخصص</div>
+      <div class="f-desc">مستوى التفصيل في التصميم البصري</div>
+    </div>
+    <div class="factor-row">
+      <div class="f-title">اللغة الإنجليزية</div>
+      <div class="f-desc">إضافة نسخة إنجليزية كاملة للموقع</div>
+    </div>
+  </div>
+
+  <div class="hosting-note reveal">
+    الاستضافة تُدفع مباشرةً لمزود الخدمة بحوالي 20-30 ر.ع سنوياً — أتولى الإعداد مجاناً.
+  </div>
+
+  <div class="reveal">
+    <div class="sec-label"><span>آلية الدفع</span></div>
+  </div>
+
+  <div class="payment-grid reveal">
+    <div class="payment-card p1">
+      <div class="pct">50%</div>
+      <div class="pwhen">عند البدء</div>
+    </div>
+    <div class="payment-card p2">
+      <div class="pct">50%</div>
+      <div class="pwhen">عند التسليم</div>
+    </div>
+  </div>
+  <p class="payment-method reveal">تحويل بنكي أو نقداً</p>
+
+  <div class="reveal">
+    <div class="sec-label"><span>الجدول الزمني — 15 يوم عمل</span></div>
+    <h2 class="page-title" style="margin-bottom:20px;">مراحل العمل خلال 15 يوماً</h2>
+  </div>
+
+  <div class="timeline-grid">
+    <div class="tl-card reveal reveal-delay-1">
+      <div class="tl-num">1</div>
+      <div class="tl-day">يوم 1-2</div>
+      <div class="tl-title">الانطلاق</div>
+      <div class="tl-desc">الشعار، الصور والمنيو</div>
+    </div>
+    <div class="tl-card reveal reveal-delay-2">
+      <div class="tl-num">2</div>
+      <div class="tl-day">يوم 3-6</div>
+      <div class="tl-title">التصميم</div>
+      <div class="tl-desc">مسودة التصميم للمراجعة</div>
+    </div>
+    <div class="tl-card reveal reveal-delay-3">
+      <div class="tl-num">3</div>
+      <div class="tl-day">يوم 7-11</div>
+      <div class="tl-title">البناء</div>
+      <div class="tl-desc">بناء الموقع بالكامل</div>
+    </div>
+    <div class="tl-card review reveal">
+      <div class="tl-num">4</div>
+      <div class="tl-day">يوم 12-14</div>
+      <div class="tl-title">المراجعة</div>
+      <div class="tl-desc">حتى 4 تعديلات إجمالية</div>
+    </div>
+    <div class="tl-card last reveal">
+      <div class="tl-num">5</div>
+      <div class="tl-day">يوم 15</div>
+      <div class="tl-title">الإطلاق</div>
+      <div class="tl-desc">الموقع يصبح حياً</div>
+    </div>
+  </div>
+
+  <div class="support-note reveal" style="margin-top:10px;">
+    الدعم: 15 يوماً بعد الإطلاق &nbsp;|&nbsp; التعديلات: حتى 4 تعديلات إجمالية
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     PAGE 4 — PORTFOLIO + NEXT STEPS
+══════════════════════════════════════════════════════ -->
+<section class="page">
+  <div class="reveal">
+    <div class="sec-label"><span>نموذج من الأعمال</span></div>
+    <h2 class="page-title">شغل حقيقي لعميل حقيقي</h2>
+  </div>
+
+  <div class="portfolio-card reveal">
+    <h3>monirlotfy.com</h3>
+    <p class="psub">موقع شخصي لطبيب وكاتب مصري &nbsp;|&nbsp; مصر</p>
+    <div class="portfolio-item">
+      <p>موقع مبني بالكامل من الصفر يعكس هوية صاحبه</p>
+      <div class="pdot"></div>
+    </div>
+    <div class="portfolio-item">
+      <p>مكتبة إعلامية: فيديوهات، مقالات، كتب صوتية، بودكاست</p>
+      <div class="pdot"></div>
+    </div>
+    <div class="portfolio-item">
+      <p>تصميم أنيق يعمل بسلاسة على الجوال والكمبيوتر</p>
+      <div class="pdot"></div>
+    </div>
+    <a class="portfolio-link" href="https://monirlotfy.com" target="_blank">← monirlotfy.com</a>
+  </div>
+
+  <div class="reveal">
+    <div class="sec-label"><span>الخطوات التالية</span></div>
+    <h2 class="page-title">كيف نبدأ؟</h2>
+    <p class="page-sub">أربع خطوات بسيطة تفصلكم عن موقعكم الجديد:</p>
+  </div>
+
+  <div class="steps-list">
+    <div class="step-card reveal reveal-delay-1">
+      <div class="step-content">
+        <h3>أخبروني بما تريدون</h3>
+        <p>أرسلوا لي الصفحات والميزات التي تريدونها، وسأرسل لكم السعر فوراً.</p>
+      </div>
+      <div class="step-num">01</div>
+    </div>
+    <div class="step-card reveal reveal-delay-2">
+      <div class="step-content">
+        <h3>نتفق ونبدأ</h3>
+        <p>50% مقدماً لنبدأ العمل مباشرة.</p>
+      </div>
+      <div class="step-num">02</div>
+    </div>
+    <div class="step-card reveal reveal-delay-3">
+      <div class="step-content">
+        <h3>أرسلوا المواد</h3>
+        <p>الشعار، الصور، المنيو، وأي تفاصيل تريدون إضافتها.</p>
+      </div>
+      <div class="step-num">03</div>
+    </div>
+    <div class="step-card reveal">
+      <div class="step-content">
+        <h3>المراجعة والإطلاق</h3>
+        <p>تراجعون الموقع، حتى 4 تعديلات إجمالية، ثم الإطلاق.</p>
+      </div>
+      <div class="step-num">04</div>
+    </div>
+  </div>
+
+  <div class="contact-card reveal">
+    <div class="contact-logo">
+      <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="10,80 35,10 50,50 65,10 90,80 78,80 65,42 50,78 35,42 22,80" fill="white"/>
+      </svg>
+    </div>
+    <div class="contact-divider"></div>
+    <div class="contact-info">
+      <h3>أسامة منير</h3>
+      <p class="ctitle">مطور ويب مستقل &nbsp;|&nbsp; صحار، عُمان</p>
+      <p class="clinks">behance.net/osamamonir_ &nbsp;|&nbsp; متاح عبر واتساب</p>
+    </div>
+  </div>
+
+  <div class="closing reveal">
+    <p>شكراً لاهتمامكم. أتطلع للعمل مع Aventus Cafe.</p>
+    <small>هذا العرض صالح لمدة 30 يوماً من تاريخ الإصدار.</small>
+  </div>
+</section>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
